@@ -1,9 +1,6 @@
-package com.github.cyl.crawler;
+package com.github.cyl.crawler.cpi;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -14,12 +11,13 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class CPICrawler {
-	private List<String> urlList;
+	private String cpiUrl;
 
 	private static final Pattern YEAR_MONTH_EX = Pattern.compile("(\\d{4})年(\\d{1,2})月");
 	private static final Pattern UN_CN_CHAR = Pattern.compile("[^\u4e00-\u9fa5]");
@@ -28,30 +26,22 @@ public class CPICrawler {
 	private static final List<String> BEGIN_REMOVE_WORDS = Arrays.asList("其中", "一", "二", "三", "四", "五", "六", "七", "八",
 			"九", "十");
 
-	public CPICrawler(String urlsPath, String charsetName) {
-		String line = null;
-		this.urlList = new ArrayList<String>();
-		try (BufferedReader br = new BufferedReader(
-				new InputStreamReader(new FileInputStream(urlsPath), charsetName))) {
-			while ((line = br.readLine()) != null) {
-				if (!line.trim().isEmpty()) {
-					urlList.add(line);
-				}
-			}
+	public CPICrawler(String cpiUrl) {
+		this.cpiUrl = cpiUrl;
+	}
+
+	public Map<String, Object> parseCPIData() {
+		try {
+			Document document = Jsoup.connect(cpiUrl)
+					.header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:29.0) Gecko/20100101 Firefox/29.0")
+					.get();
+			return parseCPIDoc(document);
 		} catch (IOException e) {
-			throw new RuntimeException("CPI爬取网址列表初始化失败", e);
+			throw new RuntimeException("解析CPI网址失败", e);
 		}
 	}
 
-	public List<String> getUrlList() {
-		return urlList;
-	}
-
-	public void setUrlList(List<String> urlList) {
-		this.urlList = urlList;
-	}
-
-	public Map<String, Object> parseCPIDoc(Document doc) {
+	private Map<String, Object> parseCPIDoc(Document doc) {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 
 		// 从标题中解析年和月
@@ -80,7 +70,7 @@ public class CPICrawler {
 			Elements tds = tr.getElementsByTag("td");
 
 			String key = null;
-			List<Float> indicator = new ArrayList<Float>();
+			List<Double> indicator = new ArrayList<Double>();
 
 			for (int j = 0; j < tds.size(); j++) {
 				Element td = tds.get(j);
@@ -105,7 +95,7 @@ public class CPICrawler {
 					}
 				} else {
 					// System.out.println(i + ":" + j + ":" + cell);
-					indicator.add(Float.valueOf(cell));
+					indicator.add(Double.valueOf(cell));
 				}
 			}
 			map.put(processKey(key), indicator);
