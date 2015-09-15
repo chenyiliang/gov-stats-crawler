@@ -46,7 +46,7 @@ public class AnalysisService {
 		map.put("year", list.get(0));
 		map.put("month", list.get(1));
 		map.put("title", list.get(2));
-		map.put("contents", list.subList(2, list.size()));
+		map.put("contents", list.subList(3, list.size()));
 		return map;
 	}
 }
