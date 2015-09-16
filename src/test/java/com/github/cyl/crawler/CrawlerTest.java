@@ -10,10 +10,10 @@ public class CrawlerTest {
 
 	@Test
 	public void testCrawler() throws Exception {
-		Document doc = Jsoup.connect("http://www.stats.gov.cn/tjsj/zxfb/201504/t20150410_708987.html").get();
+		Document doc = Jsoup.connect("http://www.stats.gov.cn/tjsj/zxfb/201508/t20150809_1227697.html").get();
 		String title = doc.title();
 		System.out.println(title);
-		Elements tbodys = doc.getElementsByTag("thead");
+		Elements tbodys = doc.getElementsByTag("tbody");
 		if (tbodys.size() == 0) {
 			return;
 		}
