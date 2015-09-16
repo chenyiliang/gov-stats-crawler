@@ -27,7 +27,7 @@ public class PPIDao {
 	private static final int MONGO_PORT = Integer.valueOf(props.getProperty("mongo.port"));
 	private static MongoClient client = new MongoClient(MONGO_HOST, MONGO_PORT);
 
-	public void insertOneCpiDoc(Map<String, Object> map) {
+	public void insertOnePpiDoc(Map<String, Object> map) {
 		client.getDatabase("autonews").getCollection("ppi").insertOne(new Document(map));
 	}
 }

@@ -25,6 +25,7 @@ public class PPICrawler {
 	private static final List<String> STOP_WORDS = Arrays.asList("三工业生产者主要行业出厂价格");
 	private static final List<String> BEGIN_REMOVE_WORDS = Arrays.asList("其中", "一", "二", "三", "四", "五", "六", "七", "八",
 			"九", "十");
+	private static final List<String> BEGIN_REMOVE_EXCEPTIONS = Arrays.asList("一般日用品");
 
 	public PPICrawler(String ppiUrl) {
 		this.ppiUrl = ppiUrl;
@@ -114,7 +115,7 @@ public class PPICrawler {
 	private String processKey(String key) {
 		for (int i = 0; i < BEGIN_REMOVE_WORDS.size(); i++) {
 			String beginRemoveWord = BEGIN_REMOVE_WORDS.get(i);
-			if (key.startsWith(beginRemoveWord)) {
+			if (key.startsWith(beginRemoveWord) && !BEGIN_REMOVE_EXCEPTIONS.contains(key)) {
 				return key.replaceFirst(beginRemoveWord, "");
 			}
 		}
