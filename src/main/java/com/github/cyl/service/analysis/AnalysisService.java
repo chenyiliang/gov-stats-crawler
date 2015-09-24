@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,8 @@ import com.github.cyl.dao.analysis.AnalysisDao;
 
 public class AnalysisService {
 	private AnalysisDao analysisDao = new AnalysisDao();
+
+	private static final List<String> SUB_MARKS = Arrays.asList("一、", "二、");
 
 	public void fetchAnalysisDataToMongo(String urlsTxtPath, String charsetName) {
 		List<String> urlList = new ArrayList<String>();
@@ -46,7 +49,33 @@ public class AnalysisService {
 		map.put("year", list.get(0));
 		map.put("month", list.get(1));
 		map.put("title", list.get(2));
-		map.put("contents", list.subList(3, list.size()));
+		List<String> contentList = resolveSubTitle(list.subList(3, list.size()));
+		map.put("contents", contentList);
 		return map;
+	}
+
+	private List<String> resolveSubTitle(List<Object> list) {
+		List<String> contentList = new ArrayList<String>();
+		for (Object obj : list) {
+			String str = (String) obj;
+			if (checkBeginSubMark(str) && str.contains("。")) {
+				String[] splits = str.split("。", 2);
+				for (String split : splits) {
+					contentList.add(split);
+				}
+			} else {
+				contentList.add(str);
+			}
+		}
+		return contentList;
+	}
+
+	private boolean checkBeginSubMark(String str) {
+		for (String mark : SUB_MARKS) {
+			if (str.startsWith(mark)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
