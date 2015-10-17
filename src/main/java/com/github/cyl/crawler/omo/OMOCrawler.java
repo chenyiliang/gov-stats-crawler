@@ -22,6 +22,7 @@ public class OMOCrawler {
 	private static final Pattern METHOD_PAT = Pattern.compile("以(.+)方式");
 	private static final Pattern INT_TEXT_PAT = Pattern.compile("(\\d+)([\u4e00-\u9fa5]+)");
 	private static final Pattern DOUBLE_PAT = Pattern.compile("\\d+(\\.\\d+)?");
+	private static final Pattern OPERATION_PAT = Pattern.compile("逆回购|正回购");
 
 	public OMOCrawler(String omoUrl, WebDriver webDriver) {
 		this.omoUrl = omoUrl;
@@ -60,6 +61,11 @@ public class OMOCrawler {
 		Matcher methodMatcher = METHOD_PAT.matcher(text);
 		if (methodMatcher.find()) {
 			map.put("method", methodMatcher.group(1));
+		}
+		// 解析操作
+		Matcher operationMatcher = OPERATION_PAT.matcher(text);
+		if (operationMatcher.find()) {
+			map.put("operation", operationMatcher.group(0));
 		}
 
 		Element table = content.getElementsByTag("table").first();
