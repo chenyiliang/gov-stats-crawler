@@ -10,7 +10,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.Test;
 
-import com.github.cyl.crawler.satatecouncil.ExecutiveMeetingCrawler;
+import com.github.cyl.crawler.statecouncil.ExecutiveMeetingCrawler;
 
 public class StateCouncilExecutiveMeetingCrawlerTest {
 	@Test
@@ -33,7 +33,7 @@ public class StateCouncilExecutiveMeetingCrawlerTest {
 		// }
 		ExecutiveMeetingCrawler crawler = new ExecutiveMeetingCrawler(
 				"http://www.gov.cn/guowuyuan/2015-10/14/content_2946877.htm");
-		Map<String, Object> map = crawler.parseRPCData();
+		Map<String, Object> map = crawler.parseExeMeetData();
 		System.out.println(map);
 	}
 }

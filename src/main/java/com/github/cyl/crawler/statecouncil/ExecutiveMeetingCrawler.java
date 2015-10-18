@@ -1,4 +1,4 @@
-package com.github.cyl.crawler.satatecouncil;
+package com.github.cyl.crawler.statecouncil;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -29,18 +29,18 @@ public class ExecutiveMeetingCrawler {
 		this.meetingUrl = meetingUrl;
 	}
 
-	public Map<String, Object> parseRPCData() {
+	public Map<String, Object> parseExeMeetData() {
 		try {
 			Document document = Jsoup.connect(meetingUrl)
 					.header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:29.0) Gecko/20100101 Firefox/29.0")
 					.get();
-			return parseRPCDoc(document);
+			return parseExeMeetDoc(document);
 		} catch (IOException e) {
 			throw new RuntimeException("解析网址失败", e);
 		}
 	}
 
-	private Map<String, Object> parseRPCDoc(Document doc) {
+	private Map<String, Object> parseExeMeetDoc(Document doc) {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		// 解析发布时间
 		String pubDateStr = doc.getElementsByClass("pages-date").first().text();
