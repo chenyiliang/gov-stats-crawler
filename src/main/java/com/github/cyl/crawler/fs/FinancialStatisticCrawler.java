@@ -44,11 +44,11 @@ public class FinancialStatisticCrawler {
 		// 解析数据日期
 		int year = pubDate.getYear() + 1900;
 		int month = pubDate.getMonth() + 1;
-		if (month < 12) {
+		if (month != 1) {
 			month--;
 		} else {
 			year--;
-			month = 1;
+			month = 12;
 		}
 		map.put("year", year);
 		map.put("month", month);
