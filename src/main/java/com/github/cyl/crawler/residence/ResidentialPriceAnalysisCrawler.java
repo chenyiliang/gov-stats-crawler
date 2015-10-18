@@ -28,18 +28,18 @@ public class ResidentialPriceAnalysisCrawler {
 		this.priceUrl = priceUrl;
 	}
 
-	public Map<String, Object> parseRPCData() {
+	public Map<String, Object> parseRPAData() {
 		try {
 			Document document = Jsoup.connect(priceUrl)
 					.header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:29.0) Gecko/20100101 Firefox/29.0")
 					.get();
-			return parseRPCDoc(document);
+			return parseRPADoc(document);
 		} catch (IOException e) {
 			throw new RuntimeException("解析网址失败", e);
 		}
 	}
 
-	private Map<String, Object> parseRPCDoc(Document doc) {
+	private Map<String, Object> parseRPADoc(Document doc) {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		// 解析标题
 		String title = doc.title();

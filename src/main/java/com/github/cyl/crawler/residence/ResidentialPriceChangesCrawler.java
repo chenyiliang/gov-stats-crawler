@@ -75,7 +75,6 @@ public class ResidentialPriceChangesCrawler {
 	}
 
 	private Date parseDateStr(String dateStr) {
-		System.out.println(dateStr);
 		Matcher matcher = PUB_DATE_PAT.matcher(dateStr);
 		if (matcher.find()) {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-ddHH:mm");
