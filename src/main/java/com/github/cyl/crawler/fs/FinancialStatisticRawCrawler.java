@@ -30,7 +30,7 @@ public class FinancialStatisticRawCrawler {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		// 解析标题
 		String title = doc.title();
-		map.put("newsTitle", title);
+		map.put("title", title);
 		// 解析发布时间
 		String pubDateStr = doc.getElementById("shijian").text();
 		Date pubDate = parseDateStr(pubDateStr);
