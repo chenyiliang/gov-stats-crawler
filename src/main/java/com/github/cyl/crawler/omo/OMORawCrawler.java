@@ -8,8 +8,6 @@ import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.openqa.selenium.WebDriver;
 
 public class OMORawCrawler {
@@ -43,7 +41,7 @@ public class OMORawCrawler {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 
 		// 解析标题
-		map.put("newsTitle", doc.title());
+		map.put("title", doc.title());
 
 		// 解析年、月、日
 		int[] dateArray = parseDateFromStr(doc.getElementById("shijian").text());
