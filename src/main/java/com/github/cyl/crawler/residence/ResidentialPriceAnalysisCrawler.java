@@ -57,7 +57,7 @@ public class ResidentialPriceAnalysisCrawler {
 		map.put("year", year);
 		map.put("month", month);
 		// 解析内容列表
-		map.put("contents", doc.toString());
+		map.put("doc", doc.toString());
 		return map;
 	}
 
