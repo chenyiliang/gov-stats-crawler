@@ -3,18 +3,14 @@ package com.github.cyl.crawler.residence;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 public class ResidentialPriceChangesCrawler {
 	private static final Pattern PUB_DATE_PAT = Pattern.compile("发布时间：(\\d{4}-\\d{2}-\\d{2}.{0,2}\\d{2}:\\d{2})");
@@ -39,11 +35,12 @@ public class ResidentialPriceChangesCrawler {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private Map<String, Object> parseRPCDoc(Document doc) {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		// 解析标题
 		String title = doc.title();
-		map.put("newsTitle", title);
+		map.put("title", title);
 		// 解析发布时间
 		String pubDateStr = doc.getElementsByTag("font").text();
 		Date pubDate = parseDateStr(UNVALID_CHAR.matcher(pubDateStr).replaceAll(""));
@@ -51,26 +48,16 @@ public class ResidentialPriceChangesCrawler {
 		// 解析数据日期
 		int year = pubDate.getYear() + 1900;
 		int month = pubDate.getMonth() + 1;
-		if (month < 12) {
+		if (month != 1) {
 			month--;
 		} else {
 			year--;
-			month = 1;
+			month = 12;
 		}
 		map.put("year", year);
 		map.put("month", month);
-		// 解析内容列表
-		List<String> contentList = new ArrayList<String>();
-		Element element = doc.getElementsByClass("TRS_Editor").first();
-		element.getElementsByTag("table").remove();
-		Elements paragraphs = element.getElementsByTag("p");
-		for (int i = 0; i < paragraphs.size(); i++) {
-			String pStr = paragraphs.get(i).text().trim();
-			if (pStr.length() > 3) {
-				contentList.add(UNVALID_CHAR.matcher(pStr).replaceAll(""));
-			}
-		}
-		map.put("contents", contentList);
+		// 内容
+		map.put("doc", doc.toString());
 		return map;
 	}
 

@@ -1,6 +1,5 @@
 package com.github.cyl.crawler;
 
-import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import org.junit.Test;
