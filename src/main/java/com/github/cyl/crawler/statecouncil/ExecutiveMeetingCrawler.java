@@ -40,6 +40,7 @@ public class ExecutiveMeetingCrawler {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private Map<String, Object> parseExeMeetDoc(Document doc) {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		// 解析发布时间
@@ -54,6 +55,8 @@ public class ExecutiveMeetingCrawler {
 		map.put("month", month);
 		map.put("day", day);
 		// 解析内容列表
+		map.put("doc", doc.toString());
+		// 解析标题
 		List<String> contentList = new ArrayList<String>();
 		Element content = doc.getElementsByClass("pages_content").first();
 		Elements paragraphs = content.getElementsByTag("p");
@@ -64,10 +67,8 @@ public class ExecutiveMeetingCrawler {
 				contentList.add(UNVALID_CHAR.matcher(tokenizer.nextElement().toString()).replaceAll(""));
 			}
 		}
-		map.put("contents", contentList);
-		// 解析标题
 		String title = contentList.remove(0);
-		map.put("newsTitle", title);
+		map.put("title", title);
 		return map;
 	}
 
