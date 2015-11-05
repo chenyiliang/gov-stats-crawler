@@ -3,18 +3,14 @@ package com.github.cyl.crawler.cxpmi;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 public class ServicePMICrawler {
 	private static final Pattern PUB_DATE_PAT = Pattern.compile("\\d{4}年\\d{2}月\\d{2}日.{0,2}\\d{2}:\\d{2}");
@@ -39,11 +35,12 @@ public class ServicePMICrawler {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private Map<String, Object> parseServicePMIDoc(Document doc) {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		// 解析标题
 		String title = doc.title();
-		map.put("newsTitle", title);
+		map.put("title", title);
 		// 解析发布时间
 		String pubDateStr = doc.getElementById("artInfo").text();
 		Date pubDate = parseDateStr(UNVALID_CHAR.matcher(pubDateStr).replaceAll(""));
@@ -60,14 +57,7 @@ public class ServicePMICrawler {
 		map.put("year", year);
 		map.put("month", month);
 		// 解析内容列表
-		List<String> contentList = new ArrayList<String>();
-		Elements paragraphs = doc.getElementsByClass("content").first().getElementsByTag("p");
-		for (Element p : paragraphs) {
-			String pRaw = p.text().trim();
-			contentList.add(UNVALID_CHAR.matcher(pRaw).replaceAll(""));
-
-		}
-		map.put("contents", contentList);
+		map.put("doc", doc.toString());
 
 		return map;
 	}
