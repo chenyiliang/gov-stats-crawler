@@ -1,5 +1,6 @@
 package com.github.cyl.crawler.omo;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
@@ -48,7 +49,7 @@ public class OMORawCrawler {
 		map.put("year", dateArray[0]);
 		map.put("month", dateArray[1]);
 		map.put("day", dateArray[2]);
-
+		map.put("pubDate", new Date(dateArray[0] - 1900, dateArray[1] - 1, dateArray[2]));
 		map.put("doc", doc.toString());
 
 		return map;
