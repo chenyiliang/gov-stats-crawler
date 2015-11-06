@@ -48,6 +48,7 @@ public class FCRCrawler {
 		map.put("year", year);
 		map.put("month", month);
 		// 整个文档保存
+		map.put("originUrl", fcrUrl);
 		map.put("doc", doc.toString());
 
 		return map;
