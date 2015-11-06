@@ -46,6 +46,7 @@ public class FinancialStatisticRawCrawler {
 		}
 		map.put("year", year);
 		map.put("month", month);
+		map.put("originUrl", fsUrl);
 		// 整个网页
 		map.put("doc", doc.toString());
 		return map;
