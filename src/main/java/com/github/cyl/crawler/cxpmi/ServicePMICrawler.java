@@ -56,6 +56,7 @@ public class ServicePMICrawler {
 		}
 		map.put("year", year);
 		map.put("month", month);
+		map.put("originUrl", pmiUrl);
 		// 解析内容列表
 		map.put("doc", doc.toString());
 
