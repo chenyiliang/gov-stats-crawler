@@ -13,6 +13,7 @@ import org.bson.types.ObjectId;
 import com.github.cyl.dao.analysis.AnalysisDao;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 
 public class SHAnnoDao {
@@ -33,7 +34,10 @@ public class SHAnnoDao {
 	private static MongoClient client = new MongoClient(MONGO_HOST, MONGO_PORT);
 
 	public void insertOneSHAnnoDoc(Map<String, Object> map) {
-		client.getDatabase("autonews").getCollection("shanno").insertOne(new Document(map));
+		MongoCollection<Document> collection = client.getDatabase("autonews").getCollection("shanno");
+		if (collection.count(new Document(map)) == 0) {
+			collection.insertOne(new Document(map));
+		}
 	}
 
 	public List<Document> getUnDocByNum(int num) {

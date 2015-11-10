@@ -5,7 +5,9 @@ import com.github.cyl.service.shanno.SHAnnoService;
 public class SHAnnoDataImporter {
 
 	public static void main(String[] args) {
-		new SHAnnoService().appendDocToMongo();
+		SHAnnoService shAnnoService = new SHAnnoService();
+		shAnnoService.fetchRPCDataToMongo();
+		shAnnoService.appendDocToMongo();
 	}
 
 }
