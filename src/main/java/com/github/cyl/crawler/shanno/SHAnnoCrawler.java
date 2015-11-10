@@ -66,13 +66,13 @@ public class SHAnnoCrawler {
 			if (codeMat.find()) {
 				code = Integer.parseInt(codeMat.group(1));
 			}
-			String doc = "error";
-			try {
-				doc = pdf2HtmlStr(href);
-			} catch (Exception e) {
-				e.printStackTrace();
-				doc = "error";
-			}
+			// String doc = "error";
+			// try {
+			// doc = pdf2HtmlStr(href);
+			// } catch (Exception e) {
+			// e.printStackTrace();
+			// doc = "error";
+			// }
 
 			Map<String, Object> map = new LinkedHashMap<String, Object>();
 			map.put("title", title);
@@ -80,8 +80,8 @@ public class SHAnnoCrawler {
 			map.put("year", year);
 			map.put("month", month);
 			map.put("day", day);
-			map.put("origin_url", href);
-			map.put("doc", doc);
+			map.put("originUrl", href);
+			// map.put("doc", doc);
 			list.add(map);
 		}
 
