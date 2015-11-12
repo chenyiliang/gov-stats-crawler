@@ -58,22 +58,24 @@ public class SHAnnoHistoryCrawler {
 
 		Random random = new Random(System.currentTimeMillis());
 		WebDriver driver = new FirefoxDriver();
-		driver.get(indexUrl);
 		try {
-			Thread.sleep(waitLoadBaseTime + random.nextInt(waitLoadRandomTime));
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			driver.get(indexUrl);
+			try {
+				Thread.sleep(waitLoadBaseTime + random.nextInt(waitLoadRandomTime));
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			do {
+				Document doc = Jsoup.parse(driver.getPageSource());
+				List<Map<String, Object>> curList = extractFromCurDoc(doc);
+				list.addAll(curList);
+			} while (toNextPage(driver));
+
+			return list;
+		} finally {
+			driver.close();
 		}
-
-		do {
-			Document doc = Jsoup.parse(driver.getPageSource());
-			List<Map<String, Object>> curList = extractFromCurDoc(doc);
-			list.addAll(curList);
-		} while (toNextPage(driver));
-
-		driver.close();
-
-		return list;
 	}
 
 	private List<Map<String, Object>> extractFromCurDoc(Document doc) {
