@@ -31,10 +31,10 @@ public class SHAnnoHistoryCrawler {
 	private String indexUrl;
 
 	public SHAnnoHistoryCrawler(int code, String startDateStr, String endDateStr) {
-		if (code > 600000 && code < 600400) {
+		if (code >= 600000 && code <= 600400) {
 			this.code = code;
 		} else {
-			throw new RuntimeException("The code is not in correct range !");
+			throw new RuntimeException("The code " + code + " is not in correct range !");
 		}
 		if (DATE_PAT.matcher(startDateStr).matches()) {
 			this.startDateStr = startDateStr;
